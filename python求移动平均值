@@ -1,0 +1,20 @@
+from collections import deque
+import itertools
+
+def moving_average(data_array, n=3):
+    """
+    Calcuate the moving average based on the specific data array.
+    :param data_array: the array stored data to be calculated.
+    :param n: the number of data in one time
+    :return: Generate which contains the result
+    """
+    it = iter(data_array)
+ 
+    d = deque(itertools.islice(it, n - 1))
+    s = sum(d)
+    # In the first round, to avoid getting extra element, so need zero in the head of queue.
+    d.appendleft(0)
+    for elem in it:
+        s += elem - d.popleft()
+        d.append(elem)
+        yield s / float(n)
